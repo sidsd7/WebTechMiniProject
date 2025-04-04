@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Quiz Game</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="artist-background">
+        <!-- JavaScript will populate this -->
+    </div>
+
+    <div class="quiz-container">
+        <h2 class="question-text">Question {{ question_num }}/5</h2>
+        <p class="question">{{ question }}</p>
+
+        <div class="options-container">
+            <form method="POST" action="/answer">
+                {% for option in options %}
+                <button type="submit" name="answer" value="{{ option }}" class="dynamic-btn">{{ option }}</button>
+                {% endfor %}
+            </form>
+        </div>
+
+        <div class="score-container">
+            <p class="score">Score: {{ session.score }}</p>
+            <p class="high-score">High Score: {{ session.high_score }}</p>
+        </div>
+        <p class="timer">Time: <span id="countdown">30</span>s</p>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        let timeLeft = 30;
+        const timerElement = document.getElementById('countdown');
+        
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.forms[0].submit();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

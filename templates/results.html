@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="artist-background">
+        <!-- JavaScript will populate this -->
+    </div>
+
+    <div class="quiz-container">
+        <h2 class="results-title">🎉 Game Over! 🎉</h2>
+        <p class="results-score">Your Score: {{ score }}/100</p>
+        <p class="results-score">High Score: {{ high_score }}/100</p>
+
+        <form action="/">
+            <button type="submit" class="dynamic-btn">Play Again</button>
+        </form>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
