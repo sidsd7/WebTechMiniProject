@@ -7,19 +7,31 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="artist-background">
-        <!-- JavaScript will populate this -->
-    </div>
+    <div class="artist-background"></div>
 
     <div class="quiz-container">
         <h2 class="question-text">Question {{ question_num }}/5</h2>
         <p class="question">{{ question }}</p>
 
+        <div class="music-player">
+            <iframe 
+                src="https://open.spotify.com/embed/track/{{ spotify_id }}" 
+                width="100%" 
+                height="80" 
+                frameborder="0" 
+                allow="encrypted-media"
+                style="border-radius: 12px;">
+            </iframe>
+        </div>
+
         <div class="options-container">
-            <form method="POST" action="/answer">
+            <form method="POST" action="/answer" id="answerForm">
                 {% for option in options %}
-                <button type="submit" name="answer" value="{{ option }}" class="dynamic-btn">{{ option }}</button>
+                <button type="submit" name="answer" value="{{ option }}" class="dynamic-btn">
+                    {{ option }}
+                </button>
                 {% endfor %}
+                <input type="hidden" name="answer" value="" id="timeoutAnswer" disabled>
             </form>
         </div>
 
@@ -34,16 +46,22 @@
     <script>
         let timeLeft = 30;
         const timerElement = document.getElementById('countdown');
+        const form = document.getElementById('answerForm');
+        const timeoutInput = document.getElementById('timeoutAnswer');
         
         const timerInterval = setInterval(() => {
             timeLeft--;
             timerElement.textContent = timeLeft;
-
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                document.forms[0].submit();
+                timeoutInput.disabled = false;
+                form.submit();
             }
         }, 1000);
+
+        window.addEventListener('beforeunload', () => {
+            clearInterval(timerInterval);
+        });
     </script>
 </body>
 </html>
